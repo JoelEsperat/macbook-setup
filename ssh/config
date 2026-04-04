@@ -1,0 +1,29 @@
+Host pi
+    User joel
+    Hostname 192.168.0.200
+
+Host pve
+    User root
+    Hostname 192.168.0.210
+
+Host pbs
+    User root
+    Hostname 10.0.0.10
+
+Host nas
+    User joel
+    Hostname 192.168.0.212
+
+Host apps
+    User root
+    Hostname 192.168.0.213
+
+Host git
+    User root
+    Hostname 192.168.0.214
+
+Host truenas
+    User joel
+    Hostname 192.168.0.220
+
+IdentityFile ~/.ssh/id_ed25519

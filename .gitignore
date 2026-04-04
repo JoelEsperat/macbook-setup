@@ -1,0 +1,12 @@
+# macOS system files and AppleDouble resource forks
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Icon?
+._*
+
+# macOS folders
+.Spotlight-V100/
+.Trashes/
+.DocumentRevisions-V100/

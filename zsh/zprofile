@@ -1,0 +1,62 @@
+# Rename all photos in the current directory based on their creation date
+rename-photos() {
+  /opt/homebrew/bin/exiftool "-filename<CreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
+}
+
+# Rename all videos in the current directory based on their creation date
+rename-videos(){
+  /opt/homebrew/bin/exiftool -api QuickTimeUTC "-filename<TrackCreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
+}
+
+# Add the specified number of hours to all the media files in the current directory
+function add-hours() {
+  if [ -z "$1" ]; then
+    echo "Usage: $1 <hours> $2 <file(s)>"
+    exit 1
+  fi
+
+  /opt/homebrew/bin/exiftool -AllDates+="$1" "$2"
+  rm *_original
+}
+
+# Substract the specified number of hours to all the media files in the current directory
+function substract-hours() {
+  if [ -z "$1" ]; then
+    echo "Usage: $1 <hours> $2 <file(s)>"
+    exit 1
+  fi
+
+  /opt/homebrew/bin/exiftool -AllDates-="$1" "$2"
+  rm *_original
+}
+
+# Compress a single video
+compress-video() {
+  mkdir -p "$(dirname -- "$1")/crf28"
+  /opt/homebrew/bin/ffmpeg -i "$1" -c:v libx265 -preset slow -crf 28 -c:a copy -tag:v hvc1 "$(dirname -- "$1")/crf28/$(basename -- "$1")"
+}
+
+# Compress all videos in the current directory
+compress-videos() {
+  for file in *; do
+    compress-video "$file"
+  done
+  cd crf28 || return
+  /opt/homebrew/bin/exiftool -overwrite_original "-AllDates<Filename" .
+  /opt/homebrew/bin/exiftool -overwrite_original -TrackCreateDate= -TrackModifyDate= -MediaCreateDate= -MediaModifyDate= *.mp4
+}
+
+# Compress a single photo
+compress-photo() {
+  local file=$1
+  local quality=${2:-75}
+  mkdir -p "$(dirname -- "$file")/$quality"
+  /opt/homebrew/opt/mozjpeg/bin/cjpeg -quality "$quality" -outfile "$(dirname -- "$file")/$quality/$(basename -- "$file")" "$file"
+}
+
+# Compress all photos in the current directory
+compress-photos() {
+  local quality=${1:-75}
+  autoload -Uz zargs
+  zargs -P 12 -I {} -- *.jpg -- compress-photo '{}' "$quality"
+}
