@@ -1,5 +1,7 @@
+# Plugins
+source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
 # Aliases
-alias ..='cd ..'
 alias dl='cd ~/Downloads'
 alias gd='cd ~/Library/CloudStorage/GoogleDrive-YOUR_EMAIL@gmail.com/My\ Drive'
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
@@ -17,5 +19,5 @@ export PROMPT="%F{green}%n@macbook%f:%F{blue}%5~%f%# " # Ubuntu style
 
 # Options
 setopt AUTO_CD
-setopt CORRECT
-setopt CORRECT_ALL
+#setopt CORRECT
+#setopt CORRECT_ALL

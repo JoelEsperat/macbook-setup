@@ -29,12 +29,14 @@ recipes=(
   mas
   media-info
   mozjpeg
+  ollama
   python
   rclone
   rsync
   tlrc
   tmux
   wget
+  zsh-autocomplete
 )
 
 # Install Homebrew recipes
