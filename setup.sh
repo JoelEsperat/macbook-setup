@@ -38,7 +38,7 @@ chmod +x ~/.local/bin/*.sh
 echo "\nDeploying credentials..."
 SYNC_METHOD="/opt/homebrew/bin/rsync"
 SYNC_ARGS=(-avh --delete)
-SOURCE="joel@nas:/data/.credentials/"
+SOURCE="joel@nas:/data/credentials/"
 TARGET="/Users/joel/.credentials/"
 mkdir -p "$TARGET"
 "$SYNC_METHOD" "${SYNC_ARGS[@]}" "$SOURCE" "$TARGET"
