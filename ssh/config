@@ -18,9 +18,9 @@ Host apps
     User root
     Hostname 192.168.0.213
 
-Host git
-    User root
-    Hostname 192.168.0.214
+Host k3s
+    User joel
+    Hostname 192.168.0.215
 
 Host truenas
     User joel
