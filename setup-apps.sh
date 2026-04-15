@@ -29,7 +29,6 @@ recipes=(
   mas
   media-info
   mozjpeg
-  ollama
   python
   rclone
   rsync
