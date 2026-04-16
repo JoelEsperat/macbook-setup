@@ -1,5 +1,7 @@
 # Plugins
 source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+bindkey              '^I'         menu-complete
+bindkey "$terminfo[kcbt]" reverse-menu-complete
 
 # Aliases
 alias dl='cd ~/Downloads'
