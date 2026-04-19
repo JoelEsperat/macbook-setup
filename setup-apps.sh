@@ -43,6 +43,7 @@ brew install --quiet "${recipes[@]}"
 
 # Homebrew casks
 casks=(
+  antigravity
   google-chrome
   google-drive
   handbrake
