@@ -11,12 +11,13 @@ alias la='gls -ahl --group --color=auto'
 alias ll='gls -hl --group --color=auto'
 alias pip='pip3'
 alias python='python3'
-alias setup='~/projects/macbook-setup/setup.sh'
+alias setup="$HOME/Projects/macbook-setup/setup.sh"
 alias vnet='sudo route -n add -net 10.0.0.0/24 192.168.0.210'
 
 # Exports
 export CLICOLOR=1
 export LSCOLORS=ExGxFxdxCxDxDxxbaDecac
+export PATH="$HOME/.local/bin:$PATH"
 export PROMPT="%F{green}%n@macbook%f:%F{blue}%5~%f%# " # Ubuntu style
 
 # Options

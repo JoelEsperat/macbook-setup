@@ -1,0 +1,32 @@
+brew "ca-certificates"
+brew "cheat"
+brew "coreutils"
+brew "exiftool"
+brew "ffmpeg"
+brew "gemini-cli"
+brew "git"
+brew "mactop"
+brew "mas"
+brew "media-info"
+brew "mozjpeg"
+brew "pipx"
+brew "python"
+brew "rclone"
+brew "rsync"
+brew "tlrc"
+brew "tmux"
+brew "wget"
+brew "zsh-autocomplete"
+
+cask "antigravity"
+cask "codex-app"
+cask "google-chrome"
+cask "google-drive"
+cask "handbrake-app"
+cask "raspberry-pi-imager"
+cask "visual-studio-code"
+cask "vlc"
+
+mas "Lightroom", id: 1451544217
+mas "WhatsApp", id: 310633997
+mas "Windows", id: 1295203466

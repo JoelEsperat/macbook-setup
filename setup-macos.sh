@@ -1,3 +1,6 @@
+#!/bin/zsh
+set -euo pipefail
+
 # Always show scrollbars
 defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 
@@ -42,5 +45,5 @@ defaults write com.apple.dock autohide-time-modifier -float 0.5
 defaults write com.apple.dock show-recents -bool false
 
 for app in "Dashboard" "Dock" "Finder" "SystemUIServer"; do
-    killall "$app" > /dev/null 2>&1
+    killall "$app" > /dev/null 2>&1 || true
 done

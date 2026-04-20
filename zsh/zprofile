@@ -11,7 +11,7 @@ rename-videos(){
 # Add the specified number of hours to all the media files in the current directory
 function add-hours() {
   if [ -z "$1" ]; then
-    echo "Usage: $1 <hours> $2 <file(s)>"
+    echo "Usage: add-hours <hours> <file(s)>"
     exit 1
   fi
 
@@ -19,10 +19,10 @@ function add-hours() {
   rm *_original
 }
 
-# Substract the specified number of hours to all the media files in the current directory
-function substract-hours() {
+# Subtract the specified number of hours from all the media files in the current directory
+function subtract-hours() {
   if [ -z "$1" ]; then
-    echo "Usage: $1 <hours> $2 <file(s)>"
+    echo "Usage: subtract-hours <hours> <file(s)>"
     exit 1
   fi
 

@@ -1,50 +1,58 @@
 #!/bin/zsh
+set -euo pipefail
 
 # SUDO
 echo "Configuring sudoers..."
-sudo cp "$(dirname "$0")/sudoers.d/joel" /private/etc/sudoers.d/joel
+sudo install -o root -g wheel -m 0440 "$(dirname "$0")/sudoers.d/joel" /private/etc/sudoers.d/joel
+sudo visudo -c >/dev/null
 
 # Hosts
-echo "\nConfiguring hosts..."
-sudo cp "$(dirname "$0")/etc/hosts" /etc/hosts
+echo "Configuring hosts..."
+sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 
 # SSH
-echo "\nConfiguring SSH..."
+echo "Configuring SSH..."
 if [ -d "$HOME/.ssh" ]; then rm -rf "$HOME/.ssh"; fi
 cp -R "$(dirname "$0")/ssh" ~/.ssh
 ln -s ~/.credentials/ssh/id_ed25519 ~/.ssh/id_ed25519
 
 # ZSH
-echo "\nConfiguring ZSH..."
-cp "$(dirname "$0")/zsh/zshrc" ~/.zshrc-extra
-cp "$(dirname "$0")/zsh/zprofile" ~/.zprofile-extra
+echo "Configuring ZSH..."
+install -m 0644 "$(dirname "$0")/zsh/zshrc" "$HOME/.zshrc-extra"
+install -m 0644 "$(dirname "$0")/zsh/zprofile" "$HOME/.zprofile-extra"
 SRC_ZSHRC="if [ -f \"$HOME/.zshrc-extra\" ]; then source \"$HOME/.zshrc-extra\"; fi"
-grep -qF -- "$SRC_ZSHRC" ~/.zshrc || echo "$SRC_ZSHRC" >> ~/.zshrc
+grep -qF -- "$SRC_ZSHRC" "$HOME/.zshrc" || echo "$SRC_ZSHRC" >> "$HOME/.zshrc"
 SRC_ZPROFILE="if [ -f \"$HOME/.zprofile-extra\" ]; then source \"$HOME/.zprofile-extra\"; fi"
-grep -qF -- "$SRC_ZPROFILE" ~/.zprofile || echo "$SRC_ZPROFILE" >> ~/.zprofile
-source ~/.zshrc
-source ~/.zprofile
+grep -qF -- "$SRC_ZPROFILE" "$HOME/.zprofile" || echo "$SRC_ZPROFILE" >> "$HOME/.zprofile"
+source "$HOME/.zshrc"
+source "$HOME/.zprofile"
 
 # Install or update apps
-echo "\nInstalling applications..."
+echo "Installing applications..."
 "$(dirname "$0")/setup-apps.sh"
 
 # Install custom scripts
-echo "\nInstalling custom scripts..."
-cp "$(dirname "$0")/bin/backup-nas-to-samsung-usb.sh" ~/.local/bin/backup-nas-to-samsung-usb.sh
-chmod +x ~/.local/bin/*.sh
+echo "Installing custom scripts..."
+mkdir -p "$HOME/.local/bin"
+for script in "$(dirname "$0")/bin"/*.sh; do
+  cp "$script" "$HOME/.local/bin/"
+done
+chmod +x "$HOME/.local/bin"/*.sh
 
 # Deploy credentials
-echo "\nDeploying credentials..."
-SYNC_METHOD="/opt/homebrew/bin/rsync"
+echo "Deploying credentials..."
+SYNC_METHOD="$(command -v rsync || true)"
+if [ -z "$SYNC_METHOD" ]; then
+  SYNC_METHOD="/opt/homebrew/bin/rsync"
+fi
 SYNC_ARGS=(-avh --delete)
 SOURCE="joel@nas:/data/credentials/"
-TARGET="/Users/joel/.credentials/"
+TARGET="$HOME/.credentials/"
 mkdir -p "$TARGET"
 "$SYNC_METHOD" "${SYNC_ARGS[@]}" "$SOURCE" "$TARGET"
 
 # Apply macOS settings
-#echo "\nApplying macOS settings..."
-#"$(dirname "$0")/setup-macos.sh"
+echo "Applying macOS settings..."
+"$(dirname "$0")/setup-macos.sh"
 
-echo "\nSetup complete!"
+echo "Setup complete!"

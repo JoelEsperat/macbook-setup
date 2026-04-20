@@ -10,3 +10,6 @@ Icon?
 .Spotlight-V100/
 .Trashes/
 .DocumentRevisions-V100/
+
+# Editor and tool artifacts
+.vscode/
