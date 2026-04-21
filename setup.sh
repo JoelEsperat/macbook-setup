@@ -12,9 +12,14 @@ sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 
 # SSH
 echo "Configuring SSH..."
-if [ -d "$HOME/.ssh" ]; then rm -rf "$HOME/.ssh"; fi
-cp -R "$(dirname "$0")/ssh" ~/.ssh
-ln -s ~/.credentials/ssh/id_ed25519 ~/.ssh/id_ed25519
+mkdir -p "$HOME/.ssh"
+cp -f "$(dirname "$0")/ssh/config" "$HOME/.ssh/"
+# Link the key if it exists
+if [ -f "$HOME/.credentials/ssh/id_ed25519" ]; then
+    ln -sf "$HOME/.credentials/ssh/id_ed25519" "$HOME/.ssh/id_ed25519"
+else
+    echo "Warning: SSH key not found in credentials"
+fi
 
 # ZSH
 echo "Configuring ZSH..."
