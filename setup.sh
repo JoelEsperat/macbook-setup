@@ -57,7 +57,7 @@ mkdir -p "$TARGET"
 "$SYNC_METHOD" "${SYNC_ARGS[@]}" "$SOURCE" "$TARGET"
 
 # Apply macOS settings
-echo "Applying macOS settings..."
-"$(dirname "$0")/setup-macos.sh"
+# echo "Applying macOS settings..."
+# "$(dirname "$0")/setup-macos.sh"
 
 echo "Setup complete!"
