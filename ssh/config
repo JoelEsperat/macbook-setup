@@ -34,3 +34,10 @@ Host truenas
 Host dell
     User joel
     Hostname 192.168.0.240
+
+Host azure
+    User azureuser
+    Hostname 10.10.0.10
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    

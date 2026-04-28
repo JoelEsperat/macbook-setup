@@ -14,6 +14,7 @@ sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 echo "Configuring SSH..."
 mkdir -p "$HOME/.ssh"
 cp -f "$(dirname "$0")/ssh/config" "$HOME/.ssh/"
+cp -f "$(dirname "$0")/ssh/known_hosts" "$HOME/.ssh/"
 # Link the key if it exists
 if [ -f "$HOME/.credentials/ssh/id_ed25519" ]; then
     ln -sf "$HOME/.credentials/ssh/id_ed25519" "$HOME/.ssh/id_ed25519"
