@@ -13,6 +13,7 @@ alias pip='pip3'
 alias python='python3'
 alias setup="$HOME/Projects/macbook-setup/setup.sh"
 alias pvenet='sudo route -n add -net 192.168.1.0/24 192.168.0.210'
+alias azvnet='sudo route -n add -net 10.0.0.0/16 192.168.0.210'
 
 # Exports
 export CLICOLOR=1
