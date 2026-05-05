@@ -37,7 +37,7 @@ Host dell
 
 Host azure
     User azureuser
-    Hostname 10.10.0.10
+    Hostname 10.0.0.10
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
     
