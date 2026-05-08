@@ -10,6 +10,11 @@ sudo visudo -c >/dev/null
 echo "Configuring hosts..."
 sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 
+# Static routes
+echo "Configuring static routes..."
+#sudo networksetup -setadditionalroutes Wi-Fi 192.168.1.0 255.255.255.0 192.168.0.210 # PVE internal network
+sudo networksetup -setadditionalroutes Wi-Fi 10.0.0.0 255.255.0.0 192.168.0.211 # Azure VNet
+
 # SSH
 echo "Configuring SSH..."
 mkdir -p "$HOME/.ssh"
