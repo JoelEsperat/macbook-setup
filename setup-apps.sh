@@ -1,10 +1,18 @@
 #!/bin/zsh
 set -euo pipefail
 
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Install Homebrew if needed
 if ! command -v brew >/dev/null 2>&1; then
   echo "Installing Homebrew"
   true | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Load Homebrew environment again after installing
+  if [ -f "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
 fi
 
 # Exit if, for some reason, Homebrew is not installed

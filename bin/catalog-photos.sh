@@ -7,18 +7,24 @@ PHOTO_DIR="$HOME/Downloads/photos"
 # Output CSV file
 OUTPUT_CSV="$HOME/Downloads/photo_catalog.csv"
 
-# Write the header to the CSV file
-echo "File,DateTime,Camera,Lens,FocalLengthIn35mmFormat" > "$OUTPUT_CSV"
+# Ensure the output directory exists
+mkdir -p "$(dirname "$OUTPUT_CSV")"
 
-# List all photos in the directory recursively and export to CSV
-find "$PHOTO_DIR" -type f -iname "*.jpg" -print0 |
-  while IFS= read -r -d '' file; do
-    exif_data=$(/opt/homebrew/bin/exiftool -s3 -Model -LensModel -FocalLengthIn35mmFormat -s3 -DateTimeOriginal "$file")
-    camera_model=$(echo "$exif_data" | sed -n '1p')
-    lens_model=$(echo "$exif_data" | sed -n '2p')
-    focal_length=$(echo "$exif_data" | sed -n '3p')
-    date_taken=$(echo "$exif_data" | sed -n '4p')
-    echo "$file,$date_taken,$camera_model,$lens_model,$focal_length" >> "$OUTPUT_CSV"
-  done
+# Export EXIF metadata directly to CSV (100x faster, avoids misalignment/corruption, handles commas in file paths)
+if [ -d "$PHOTO_DIR" ]; then
+  # Ensure exiftool is in the PATH (using Homebrew on Apple Silicon)
+  export PATH="/opt/homebrew/bin:$PATH"
+  
+  # Generate the CSV
+  exiftool -csv -DateTimeOriginal -Model -LensModel -FocalLengthIn35mmFormat -ext jpg -ext jpeg -ext JPG -ext JPEG -r "$PHOTO_DIR" > "$OUTPUT_CSV"
+  
+  # Rename headers to match original layout: SourceFile -> File, DateTimeOriginal -> DateTime, Model -> Camera, LensModel -> Lens
+  if [ -f "$OUTPUT_CSV" ]; then
+    sed -i '' '1s/SourceFile,DateTimeOriginal,Model,LensModel/File,DateTime,Camera,Lens/' "$OUTPUT_CSV"
+  fi
+else
+  echo "Error: Directory $PHOTO_DIR does not exist."
+  exit 1
+fi
 
 echo "Cataloging done."

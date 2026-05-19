@@ -1,49 +1,57 @@
+
 # Rename all photos in the current directory based on their creation date
 rename-photos() {
-  /opt/homebrew/bin/exiftool "-filename<CreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
+  exiftool "-filename<CreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
 }
 
 # Rename all videos in the current directory based on their creation date
 rename-videos(){
-  /opt/homebrew/bin/exiftool -api QuickTimeUTC "-filename<TrackCreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
+  exiftool -api QuickTimeUTC "-filename<TrackCreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
 }
 
 # Add the specified number of hours to all the media files in the current directory
 function add-hours() {
-  if [ -z "$1" ]; then
+  if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Usage: add-hours <hours> <file(s)>"
-    exit 1
+    return 1
   fi
 
-  /opt/homebrew/bin/exiftool -AllDates+="$1" "$2"
-  rm *_original
+  exiftool -overwrite_original -AllDates+="$1" "$2"
 }
 
 # Subtract the specified number of hours from all the media files in the current directory
 function subtract-hours() {
-  if [ -z "$1" ]; then
+  if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Usage: subtract-hours <hours> <file(s)>"
-    exit 1
+    return 1
   fi
 
-  /opt/homebrew/bin/exiftool -AllDates-="$1" "$2"
-  rm *_original
+  exiftool -overwrite_original -AllDates-="$1" "$2"
 }
 
 # Compress a single video
 compress-video() {
   mkdir -p "$(dirname -- "$1")/crf28"
-  /opt/homebrew/bin/ffmpeg -i "$1" -c:v libx265 -preset slow -crf 28 -c:a copy -tag:v hvc1 "$(dirname -- "$1")/crf28/$(basename -- "$1")"
+  ffmpeg -i "$1" -c:v libx265 -preset slow -crf 28 -c:a copy -tag:v hvc1 "$(dirname -- "$1")/crf28/$(basename -- "$1")"
 }
 
 # Compress all videos in the current directory
 compress-videos() {
-  for file in *; do
-    compress-video "$file"
+  local orig_dir="$PWD"
+  mkdir -p crf28
+  for file in *.(mp4|MP4|mov|MOV|mkv|MKV)(N); do
+    if [ -f "$file" ]; then
+      compress-video "$file"
+    fi
   done
   cd crf28 || return
-  /opt/homebrew/bin/exiftool -overwrite_original "-AllDates<Filename" .
-  /opt/homebrew/bin/exiftool -overwrite_original -TrackCreateDate= -TrackModifyDate= -MediaCreateDate= -MediaModifyDate= *.mp4
+  exiftool -overwrite_original "-AllDates<Filename" .
+  
+  local mp4_files=(*.mp4(N) *.MP4(N))
+  if (( ${#mp4_files} > 0 )); then
+    exiftool -overwrite_original -TrackCreateDate= -TrackModifyDate= -MediaCreateDate= -MediaModifyDate= "${mp4_files[@]}"
+  fi
+  cd "$orig_dir"
 }
 
 # Compress a single photo
@@ -51,12 +59,17 @@ compress-photo() {
   local file=$1
   local quality=${2:-75}
   mkdir -p "$(dirname -- "$file")/$quality"
-  /opt/homebrew/opt/mozjpeg/bin/cjpeg -quality "$quality" -outfile "$(dirname -- "$file")/$quality/$(basename -- "$file")" "$file"
+  cjpeg -quality "$quality" -outfile "$(dirname -- "$file")/$quality/$(basename -- "$file")" "$file"
 }
 
 # Compress all photos in the current directory
 compress-photos() {
   local quality=${1:-75}
   autoload -Uz zargs
-  zargs -P 12 -I {} -- *.jpg -- compress-photo '{}' "$quality"
+  local files=(*.(jpg|JPG|jpeg|JPEG)(N))
+  if (( ${#files} > 0 )); then
+    zargs -P 12 -I {} -- "${files[@]}" -- compress-photo '{}' "$quality"
+  else
+    echo "No JPG/JPEG photos found in the current directory."
+  fi
 }

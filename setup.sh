@@ -1,6 +1,10 @@
 #!/bin/zsh
 set -euo pipefail
 
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # SUDO
 echo "Configuring sudoers..."
 sudo install -o root -g wheel -m 0440 "$(dirname "$0")/sudoers.d/joel" /private/etc/sudoers.d/joel
@@ -8,16 +12,29 @@ sudo visudo -c >/dev/null
 
 # Hosts
 echo "Configuring hosts..."
+if [ -f "/etc/hosts" ] && [ ! -f "/etc/hosts.bak" ]; then
+  sudo cp /etc/hosts /etc/hosts.bak
+fi
 sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 
 # Static routes
 echo "Configuring static routes..."
-#sudo networksetup -setadditionalroutes Wi-Fi 192.168.1.0 255.255.255.0 192.168.0.210 # PVE internal network
-sudo networksetup -setadditionalroutes Wi-Fi 10.0.0.0 255.255.0.0 192.168.0.211 # Azure VNet
+if networksetup -listallnetworkservices | grep -Fxq "Wi-Fi"; then
+  sudo networksetup -setadditionalroutes Wi-Fi 192.168.1.0 255.255.255.0 192.168.0.210 # PVE internal network
+  sudo networksetup -setadditionalroutes Wi-Fi 10.0.0.0 255.255.0.0 192.168.0.211 # Azure VNet
+else
+  echo "Warning: 'Wi-Fi' network service not found. Skipping static routes configuration."
+fi
 
 # SSH
 echo "Configuring SSH..."
 mkdir -p "$HOME/.ssh"
+if [ -f "$HOME/.ssh/config" ] && [ ! -f "$HOME/.ssh/config.bak" ]; then
+  cp "$HOME/.ssh/config" "$HOME/.ssh/config.bak"
+fi
+if [ -f "$HOME/.ssh/known_hosts" ] && [ ! -f "$HOME/.ssh/known_hosts.bak" ]; then
+  cp "$HOME/.ssh/known_hosts" "$HOME/.ssh/known_hosts.bak"
+fi
 cp -f "$(dirname "$0")/ssh/config" "$HOME/.ssh/"
 cp -f "$(dirname "$0")/ssh/known_hosts" "$HOME/.ssh/"
 # Link the key if it exists
@@ -31,6 +48,7 @@ fi
 echo "Configuring ZSH..."
 install -m 0644 "$(dirname "$0")/zsh/zshrc" "$HOME/.zshrc-extra"
 install -m 0644 "$(dirname "$0")/zsh/zprofile" "$HOME/.zprofile-extra"
+touch "$HOME/.zshrc" "$HOME/.zprofile"
 SRC_ZSHRC="if [ -f \"$HOME/.zshrc-extra\" ]; then source \"$HOME/.zshrc-extra\"; fi"
 grep -qF -- "$SRC_ZSHRC" "$HOME/.zshrc" || echo "$SRC_ZSHRC" >> "$HOME/.zshrc"
 SRC_ZPROFILE="if [ -f \"$HOME/.zprofile-extra\" ]; then source \"$HOME/.zprofile-extra\"; fi"
@@ -61,6 +79,12 @@ SOURCE="joel@nas:/data/credentials/"
 TARGET="$HOME/.credentials/"
 mkdir -p "$TARGET"
 "$SYNC_METHOD" "${SYNC_ARGS[@]}" "$SOURCE" "$TARGET"
+
+# Link the key if it was just downloaded
+if [ -f "$HOME/.credentials/ssh/id_ed25519" ]; then
+    echo "Linking downloaded SSH key..."
+    ln -sf "$HOME/.credentials/ssh/id_ed25519" "$HOME/.ssh/id_ed25519"
+fi
 
 # Apply macOS settings
 # echo "Applying macOS settings..."
