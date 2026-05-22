@@ -44,6 +44,13 @@ else
     echo "Warning: SSH key not found in credentials"
 fi
 
+# Git
+echo "Configuring Git..."
+if [ -f "$HOME/.gitconfig" ] && [ ! -f "$HOME/.gitconfig.bak" ]; then
+  cp "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
+fi
+cp -f "$(dirname "$0")/git/gitconfig" "$HOME/.gitconfig"
+
 # ZSH
 echo "Configuring ZSH..."
 install -m 0644 "$(dirname "$0")/zsh/zshrc" "$HOME/.zshrc-extra"

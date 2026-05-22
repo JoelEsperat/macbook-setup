@@ -9,6 +9,7 @@ Personal MacBook configuration as code. Installs/updates apps, configures ZSH, S
 - **`sudoers.d/`** — passwordless sudo
 - **`etc/hosts`** — local network hostname aliases
 - **`ssh/config`** — SSH config for homelab machines
+- **`git/gitconfig`** — global Git configuration
 - **`zsh/zshrc`** — aliases, autocomplete
 - **`zsh/zprofile`** — photos and videos utility functions
 - **`bin/`** — utility scripts installed to `~/.local/bin`
