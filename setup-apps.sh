@@ -45,6 +45,5 @@ pipx_bin="$(command -v pipx || true)"
 if [ -z "$pipx_bin" ]; then
   pipx_bin="/opt/homebrew/bin/pipx"
 fi
-"$pipx_bin" install --force ffmpeg-quality-metrics
 "$pipx_bin" ensurepath
 
