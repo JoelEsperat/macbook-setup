@@ -1,11 +1,16 @@
 #!/bin/zsh
 set -euo pipefail
 
+if [ -z "${1:-}" ]; then
+  echo "Usage: $0 <photo-directory>"
+  exit 1
+fi
+
 # Directory containing photos
-PHOTO_DIR="$HOME/Downloads/photos"
+PHOTO_DIR="$1"
 
 # Output CSV file
-OUTPUT_CSV="$HOME/Downloads/photo_catalog.csv"
+OUTPUT_CSV="$PWD/photo_catalog.csv"
 
 # Ensure the output directory exists
 mkdir -p "$(dirname "$OUTPUT_CSV")"
