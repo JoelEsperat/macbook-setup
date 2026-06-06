@@ -20,8 +20,9 @@ sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 # Static routes
 echo "Configuring static routes..."
 if networksetup -listallnetworkservices | grep -Fxq "Wi-Fi"; then
-  sudo networksetup -setadditionalroutes Wi-Fi 192.168.1.0 255.255.255.0 192.168.0.210 # PVE internal network
-  sudo networksetup -setadditionalroutes Wi-Fi 10.0.0.0 255.255.0.0 192.168.0.211 # Azure VNet
+  sudo networksetup -setadditionalroutes Wi-Fi \
+    192.168.1.0 255.255.255.0 192.168.0.210 \
+    10.0.0.0 255.255.0.0 192.168.0.211
 else
   echo "Warning: 'Wi-Fi' network service not found. Skipping static routes configuration."
 fi
@@ -60,8 +61,6 @@ SRC_ZSHRC="if [ -f \"$HOME/.zshrc-extra\" ]; then source \"$HOME/.zshrc-extra\";
 grep -qF -- "$SRC_ZSHRC" "$HOME/.zshrc" || echo "$SRC_ZSHRC" >> "$HOME/.zshrc"
 SRC_ZPROFILE="if [ -f \"$HOME/.zprofile-extra\" ]; then source \"$HOME/.zprofile-extra\"; fi"
 grep -qF -- "$SRC_ZPROFILE" "$HOME/.zprofile" || echo "$SRC_ZPROFILE" >> "$HOME/.zprofile"
-source "$HOME/.zshrc"
-source "$HOME/.zprofile"
 
 # Install or update apps
 echo "Installing applications..."
