@@ -23,11 +23,7 @@ Host apps
     User root
     Hostname 192.168.0.213
 
-Host k3s
-    User joel
-    Hostname 192.168.0.215
-
-Host truenas
+Host gmktec
     User joel
     Hostname 192.168.0.220
 
