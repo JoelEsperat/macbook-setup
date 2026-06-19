@@ -23,7 +23,15 @@ Host apps
     User root
     Hostname 192.168.0.213
 
-Host gmktec
+Host pulse
+    User root
+    Hostname 192.168.0.214
+
+Host ffmpeg
+    User root
+    Hostname 192.168.0.215
+
+Host server
     User joel
     Hostname 192.168.0.220
 
@@ -36,4 +44,3 @@ Host azure
     Hostname 10.0.0.10
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
-    
