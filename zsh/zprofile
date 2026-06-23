@@ -1,4 +1,3 @@
-
 # Rename all photos in the current directory based on their creation date
 rename-photos() {
   exiftool "-filename<CreateDate" -d "%Y%m%d_%H%M%S%%-c.%%e" -r .
@@ -29,13 +28,22 @@ function subtract-hours() {
   exiftool -overwrite_original -AllDates-="$1" "$2"
 }
 
-# Compress a single video
+# Compress a single video and automatically verify VMAF score
 compress-video() {
   local input="$1"
-  local output_dir="$(dirname -- "$input")/crf23"
+  local crf="${2:-23}"
+  local preset="${3:-slow}"
+  local output_dir="$(dirname -- "$input")/crf${crf}"
   local output="$output_dir/$(basename -- "$input")"
   mkdir -p "$output_dir"
-  ffmpeg -i "$input" -map_metadata 0 -c:v libx265 -preset slow -crf 23 -c:a copy -tag:v hvc1 "$output" && \
+  
+  ffmpeg -i "$input" -fps_mode passthrough -map_metadata 0 -c:v libx265 -preset "$preset" -crf "$crf" -c:a copy -tag:v hvc1 "$output" && \
+  
+  # To downsample from 10 bit to 8 bit:
+  #/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg -i "$input" \
+  #-vf "zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p" \
+  #-c:v libx265 -preset "$preset" -crf "$crf" \
+  #-c:a copy -tag:v hvc1 -map_metadata 0 "$output" && \
     exiftool -overwrite_original -P -api QuickTimeUTC -tagsFromFile "$input" \
       -All:All \
       "-QuickTime:GPSCoordinates<QuickTime:GPSCoordinates" \
@@ -46,14 +54,56 @@ compress-video() {
       "-Model<Model" \
       "-AndroidMake<AndroidMake" \
       "-AndroidModel<AndroidModel" \
-      "$output"
+      "$output" && \
+    echo "\nCompression complete. Running VMAF verification..." && \
+    vmaf-video "$input" "$crf"
 }
 
 # Compress all videos in the current directory
 compress-videos() {
+  local crf="${1:-23}"
+  local preset="${2:-slow}"
   for file in *.(mp4|MP4|mov|MOV|mkv|MKV)(N); do
     if [ -f "$file" ]; then
-      compress-video "$file"
+      compress-video "$file" "$crf" "$preset"
+    fi
+  done
+}
+
+# Compute the VMAF score of a compressed video against its original
+vmaf-video() {
+  local input="$1"
+  local crf="${2:-23}"
+  local subsample="${3:-5}"
+  local cores="${4:-10}"
+  local output_dir="$(dirname -- "$input")/crf${crf}"
+  local output="$output_dir/$(basename -- "$input")"
+
+  if [ ! -f "$input" ]; then
+    echo "Original file not found: $input"
+    return 1
+  fi
+  if [ ! -f "$output" ]; then
+    echo "Compressed file not found: $output"
+    return 1
+  fi
+
+  # Uses filter_complex to align frames sequentially (settb=1/AVTB,setpts=N) 
+  # to prevent VFR timestamp drift from ruining VMAF comparisons
+  ffmpeg -hwaccel videotoolbox -i "$output" -hwaccel videotoolbox -i "$input" \
+    -filter_complex "[0:v]settb=1/AVTB,setpts=N[dist];[1:v]settb=1/AVTB,setpts=N[ref];[dist][ref]libvmaf=n_threads=${cores}:n_subsample=${subsample}" \
+    -f null -
+}
+
+# Compute the VMAF score of all compressed videos in the current directory
+vmaf-videos() {
+  local crf="${1:-23}"
+  local subsample="${2:-5}"
+  local cores="${3:-10}"
+  for file in *.(mp4|MP4|mov|MOV|mkv|MKV)(N); do
+    if [ -f "$file" ]; then
+      echo "VMAF score for $file (CRF $crf, Subsample $subsample, Cores $cores):"
+      vmaf-video "$file" "$crf" "$subsample" "$cores"
     fi
   done
 }
