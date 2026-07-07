@@ -21,8 +21,7 @@ sudo install -o root -g wheel -m 0644 "$(dirname "$0")/etc/hosts" /etc/hosts
 echo "Configuring static routes..."
 if networksetup -listallnetworkservices | grep -Fxq "Wi-Fi"; then
   sudo networksetup -setadditionalroutes Wi-Fi \
-    192.168.1.0 255.255.255.0 192.168.0.210 \
-    10.0.0.0 255.255.0.0 192.168.0.211
+    192.168.1.0 255.255.255.0 192.168.0.210
 else
   echo "Warning: 'Wi-Fi' network service not found. Skipping static routes configuration."
 fi
