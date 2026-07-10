@@ -15,6 +15,10 @@ Host pbs
     User root
     Hostname 192.168.1.10
 
+Host gw
+    User root
+    Hostname 192.168.0.211
+
 Host nas
     User joel
     Hostname 192.168.0.212
@@ -23,21 +27,9 @@ Host apps
     User root
     Hostname 192.168.0.213
 
-Host pulse
-    User root
-    Hostname 192.168.0.214
-
-Host ffmpeg
-    User root
-    Hostname 192.168.0.215
-
-Host dev
+Host lab
     User joel
     Hostname 192.168.0.220
-
-Host dell
-    User joel
-    Hostname 192.168.0.240
 
 Host azure
     User azureuser
