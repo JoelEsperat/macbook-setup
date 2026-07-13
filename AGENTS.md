@@ -6,7 +6,7 @@ This repository stores a personal macOS setup as code. The root scripts are the 
 
 ## Build, Test, and Development Commands
 
-- `./setup.sh`: full machine setup. This modifies system files, installs apps, copies dotfiles, and syncs credentials from the NAS.
+- `./setup.sh`: full machine setup. This modifies system files, installs apps, copies dotfiles, and configures user environment settings.
 - `./setup-apps.sh`: installs or updates Homebrew, runs `brew bundle install --file Brewfile`, and cleans up packages.
 - `./setup-macos.sh`: applies macOS `defaults` settings. It is currently not called by default from `setup.sh`.
 - `brew bundle check --file Brewfile`: verifies whether Brewfile dependencies are already installed.
@@ -26,4 +26,4 @@ Recent commits use short imperative or descriptive summaries, for example `Incre
 
 ## Security & Configuration Tips
 
-Do not commit private keys or secrets. The public key in `ssh/id_ed25519.pub` is acceptable, but private credentials should stay in the NAS-backed `~/.credentials/` sync path. Treat `sudoers.d/`, `etc/hosts`, and SSH configuration changes as high impact and review them carefully before applying.
+Do not commit private keys or secrets. The public key in `ssh/id_ed25519.pub` is acceptable, but private credentials must be managed and deployed manually (they are not stored or synced by this setup script). Treat `sudoers.d/`, `etc/hosts`, and SSH configuration changes as high impact and review them carefully before applying.

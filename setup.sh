@@ -37,12 +37,6 @@ if [ -f "$HOME/.ssh/known_hosts" ] && [ ! -f "$HOME/.ssh/known_hosts.bak" ]; the
 fi
 cp -f "$(dirname "$0")/ssh/config" "$HOME/.ssh/"
 cp -f "$(dirname "$0")/ssh/known_hosts" "$HOME/.ssh/"
-# Link the key if it exists
-if [ -f "$HOME/.credentials/ssh/id_ed25519" ]; then
-    ln -sf "$HOME/.credentials/ssh/id_ed25519" "$HOME/.ssh/id_ed25519"
-else
-    echo "Warning: SSH key not found in credentials"
-fi
 
 # Git
 echo "Configuring Git..."
@@ -72,24 +66,6 @@ for script in "$(dirname "$0")/bin"/*.sh; do
   cp "$script" "$HOME/.local/bin/"
 done
 chmod +x "$HOME/.local/bin"/*.sh
-
-# Deploy credentials
-echo "Deploying credentials..."
-SYNC_METHOD="$(command -v rsync || true)"
-if [ -z "$SYNC_METHOD" ]; then
-  SYNC_METHOD="/opt/homebrew/bin/rsync"
-fi
-SYNC_ARGS=(-avh --delete)
-SOURCE="joel@nas:/data/credentials/"
-TARGET="$HOME/.credentials/"
-mkdir -p "$TARGET"
-"$SYNC_METHOD" "${SYNC_ARGS[@]}" "$SOURCE" "$TARGET"
-
-# Link the key if it was just downloaded
-if [ -f "$HOME/.credentials/ssh/id_ed25519" ]; then
-    echo "Linking downloaded SSH key..."
-    ln -sf "$HOME/.credentials/ssh/id_ed25519" "$HOME/.ssh/id_ed25519"
-fi
 
 # Apply macOS settings
 # echo "Applying macOS settings..."

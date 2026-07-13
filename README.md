@@ -1,6 +1,6 @@
 # macbook-setup
 
-Personal MacBook configuration as code. Installs/updates apps, configures ZSH, SSH, and syncs credentials from a NAS.
+Personal MacBook configuration as code. Installs/updates apps, configures ZSH, and SSH config.
 
 ## What it does
 
@@ -14,7 +14,7 @@ Personal MacBook configuration as code. Installs/updates apps, configures ZSH, S
 - **`zsh/zprofile`** — photos and videos utility functions
 - **`bin/`** — utility scripts installed to `~/.local/bin`
 
-Credentials (SSH private key, etc.) are pulled from a NAS over rsync and stored in `~/.credentials/`.
+Credentials (such as SSH private keys) must be managed and deployed manually.
 
 ## Usage
 
@@ -22,8 +22,6 @@ Credentials (SSH private key, etc.) are pulled from a NAS over rsync and stored 
 git clone https://github.com/JoelEsperat/macbook-setup.git ~/Projects/macbook-setup
 ~/Projects/macbook-setup/setup.sh
 ```
-
-> Requires network access to the NAS for the credentials sync step.
 
 ## Apps installed
 
