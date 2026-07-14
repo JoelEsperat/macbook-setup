@@ -27,8 +27,12 @@ Host apps
     User root
     Hostname 192.168.0.213
 
-Host lab
+Host kube
     User joel
+    Hostname 192.168.0.214
+
+Host pve2
+    User root
     Hostname 192.168.0.220
 
 Host azure
