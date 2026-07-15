@@ -13,7 +13,7 @@ Host pve
 
 Host pbs
     User root
-    Hostname 192.168.1.10
+    Hostname 10.10.10.10
 
 Host gw
     User root
@@ -26,10 +26,6 @@ Host nas
 Host apps
     User root
     Hostname 192.168.0.213
-
-Host kube
-    User joel
-    Hostname 192.168.0.214
 
 Host pve2
     User root
