@@ -37,7 +37,7 @@ mkdir -p "$HOME/.ssh"
 #  cp "$HOME/.ssh/known_hosts" "$HOME/.ssh/known_hosts.bak"
 #fi
 cp -f "$(dirname "$0")/ssh/config" "$HOME/.ssh/"
-cp -f "$(dirname "$0")/ssh/known_hosts" "$HOME/.ssh/"
+#cp -f "$(dirname "$0")/ssh/known_hosts" "$HOME/.ssh/"
 
 # Git
 echo "Configuring Git..."
