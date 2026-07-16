@@ -11,10 +11,6 @@ Host pve
     User root
     Hostname 192.168.0.210
 
-Host pbs
-    User root
-    Hostname 10.10.10.10
-
 Host gw
     User root
     Hostname 192.168.0.211
@@ -30,6 +26,10 @@ Host apps
 Host pve2
     User root
     Hostname 192.168.0.220
+
+Host apps2
+    User root
+    Hostname 192.168.0.221
 
 Host azure
     User azureuser

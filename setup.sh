@@ -30,20 +30,20 @@ fi
 # SSH
 echo "Configuring SSH..."
 mkdir -p "$HOME/.ssh"
-if [ -f "$HOME/.ssh/config" ] && [ ! -f "$HOME/.ssh/config.bak" ]; then
-  cp "$HOME/.ssh/config" "$HOME/.ssh/config.bak"
-fi
-if [ -f "$HOME/.ssh/known_hosts" ] && [ ! -f "$HOME/.ssh/known_hosts.bak" ]; then
-  cp "$HOME/.ssh/known_hosts" "$HOME/.ssh/known_hosts.bak"
-fi
+#if [ -f "$HOME/.ssh/config" ] && [ ! -f "$HOME/.ssh/config.bak" ]; then
+#  cp "$HOME/.ssh/config" "$HOME/.ssh/config.bak"
+#fi
+#if [ -f "$HOME/.ssh/known_hosts" ] && [ ! -f "$HOME/.ssh/known_hosts.bak" ]; then
+#  cp "$HOME/.ssh/known_hosts" "$HOME/.ssh/known_hosts.bak"
+#fi
 cp -f "$(dirname "$0")/ssh/config" "$HOME/.ssh/"
 cp -f "$(dirname "$0")/ssh/known_hosts" "$HOME/.ssh/"
 
 # Git
 echo "Configuring Git..."
-if [ -f "$HOME/.gitconfig" ] && [ ! -f "$HOME/.gitconfig.bak" ]; then
-  cp "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
-fi
+#if [ -f "$HOME/.gitconfig" ] && [ ! -f "$HOME/.gitconfig.bak" ]; then
+#  cp "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
+#fi
 cp -f "$(dirname "$0")/git/gitconfig" "$HOME/.gitconfig"
 
 # ZSH
