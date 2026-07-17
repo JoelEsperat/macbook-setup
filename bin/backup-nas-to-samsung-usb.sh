@@ -10,7 +10,7 @@ if [ -z "$BACKUP_METHOD" ]; then
 fi
 BACKUP_ARGS=(-avh --delete --progress)
 #BACKUP_ARGS="$BACKUP_ARGS --exclude=.DS_Store --exclude=._* --exclude=.Trashes --exclude=.Spotlight-V100 --iconv=utf-8,utf-8-mac"
-SOURCE="joel@nas:/data/"
+SOURCE="root@rclone:/data/"
 TARGET="/Volumes/Samsung USB/nas/"
 if [ ! -d "$TARGET" ]; then
   echo "Mount the Samsung USB drive at $TARGET first."

@@ -15,10 +15,6 @@ Host apps
     User root
     Hostname 192.168.0.211
 
-Host nas
-    User joel
-    Hostname 192.168.0.212
-
 Host pve2
     User root
     Hostname 192.168.0.220
@@ -26,6 +22,22 @@ Host pve2
 Host apps2
     User root
     Hostname 192.168.0.221
+
+Host k3s-01
+    User joel
+    Hostname 10.10.20.101
+
+Host k3s-02
+    User joel
+    Hostname 10.10.20.102
+
+Host k3s-03
+    User joel
+    Hostname 10.10.20.103
+
+Host nfs-01
+    User joel
+    Hostname 10.10.20.110
 
 Host azure
     User azureuser
