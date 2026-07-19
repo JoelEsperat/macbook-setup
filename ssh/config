@@ -23,6 +23,10 @@ Host apps2
     User root
     Hostname 192.168.0.221
 
+Host nas
+    User root
+    Hostname 10.10.10.20
+
 Host k3s-01
     User joel
     Hostname 10.10.20.101
