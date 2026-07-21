@@ -5,17 +5,17 @@ bindkey "$terminfo[kcbt]" reverse-menu-complete
 
 # Aliases
 alias dl='cd ~/Downloads'
-alias gd='cd ~/Library/CloudStorage/GoogleDrive-YOUR_EMAIL@gmail.com/My\ Drive'
+alias gd='cd ~/Library/CloudStorage/GoogleDrive-joel.esperat@gmail.com/My\ Drive'
 alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs'
 alias la='gls -ahl --group --color=auto'
 alias ll='gls -hl --group --color=auto'
 alias pip='pip3'
-alias pvenet='sudo route -n add -net 192.168.1.0/24 192.168.0.210' # PVE internal network
 alias python='python3'
 alias setup="$HOME/Projects/macbook-setup/setup.sh"
 
 # Exports
 export CLICOLOR=1
+export KUBECONFIG="$HOME/.kube/k3s-lab.yaml"
 export LSCOLORS=ExGxFxdxCxDxDxxbaDecac
 export PATH="$HOME/.local/bin:$PATH"
 export PROMPT="%F{green}%n@macbook%f:%F{blue}%5~%f%# " # Ubuntu style
