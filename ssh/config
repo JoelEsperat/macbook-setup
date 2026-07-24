@@ -5,54 +5,33 @@ Host *
 
 Host pi
     User joel
-    Hostname 192.168.0.200
+    Hostname 192.168.0.2
+
 
 Host pve
     User root
-    Hostname 192.168.0.210
+    Hostname 192.168.0.200
+
+Host pbs
+    User root
+    Hostname 192.168.0.201
 
 Host apps
     User root
-    Hostname 192.168.0.211
+    Hostname 192.168.0.202
 
-Host pve2
+Host nas
+    User root
+    Hostname 192.168.0.204
+
+Host pve-01
+    User root
+    Hostname 192.168.0.210
+
+Host pve-02
     User root
     Hostname 192.168.0.220
-
-Host apps2
-    User root
-    Hostname 192.168.0.221
 
 Host dell
     User joel
     Hostname 192.168.0.230
-
-Host pbs
-    User root
-    Hostname 10.10.10.10
-
-Host nas
-    User root
-    Hostname 10.10.10.20
-
-Host k3s-01
-    User joel
-    Hostname 10.10.20.101
-
-Host k3s-02
-    User joel
-    Hostname 10.10.20.102
-
-Host k3s-03
-    User joel
-    Hostname 10.10.20.103
-
-Host nfs-01
-    User joel
-    Hostname 10.10.20.110
-
-Host azure
-    User azureuser
-    Hostname 10.0.0.10
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
