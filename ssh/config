@@ -7,7 +7,6 @@ Host pi
     User joel
     Hostname 192.168.0.2
 
-
 Host pve
     User root
     Hostname 192.168.0.200
@@ -31,6 +30,22 @@ Host pve-01
 Host pve-02
     User root
     Hostname 192.168.0.220
+
+Host nfs-01
+    User joel
+    Hostname 192.168.0.211
+
+Host k3s-01
+    User joel
+    Hostname 192.168.0.221
+
+Host k3s-02
+    User joel
+    Hostname 192.168.0.222
+
+Host k3s-03
+    User joel
+    Hostname 192.168.0.223
 
 Host dell
     User joel
