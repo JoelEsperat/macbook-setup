@@ -35,6 +35,10 @@ Host nfs-01
     User joel
     Hostname 192.168.0.211
 
+Host mgmt-01
+    User joel
+    Hostname 192.168.0.212
+
 Host k3s-01
     User joel
     Hostname 192.168.0.221
