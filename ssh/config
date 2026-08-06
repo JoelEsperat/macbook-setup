@@ -25,32 +25,8 @@ Host nas
 
 Host pve-01
     User root
-    Hostname 192.168.0.210
+    Hostname 192.168.0.11
 
 Host pve-02
     User root
-    Hostname 192.168.0.220
-
-Host nfs-01
-    User joel
-    Hostname 192.168.0.211
-
-Host mgmt-01
-    User joel
-    Hostname 192.168.0.212
-
-Host k3s-01
-    User joel
-    Hostname 192.168.0.221
-
-Host k3s-02
-    User joel
-    Hostname 192.168.0.222
-
-Host k3s-03
-    User joel
-    Hostname 192.168.0.223
-
-Host dell
-    User joel
-    Hostname 192.168.0.230
+    Hostname 192.168.0.12
