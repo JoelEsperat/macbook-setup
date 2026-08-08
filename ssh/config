@@ -1,5 +1,5 @@
 Host *
-    AddKeysToAgent yes
+#    AddKeysToAgent yes
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_ed25519
 
@@ -18,3 +18,7 @@ Host g3s
 Host g3pro
     User root
     Hostname 192.168.0.13
+
+Host nas
+    User root
+    Hostname 192.168.0.210
