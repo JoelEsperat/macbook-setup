@@ -15,6 +15,10 @@ Host g3s
     User root
     Hostname 192.168.0.12
 
+Host shell
+    User joel
+    Hostname 192.168.0.218
+
 Host k3s
     User joel
     Hostname 192.168.0.230
