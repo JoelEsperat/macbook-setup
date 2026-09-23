@@ -55,8 +55,8 @@ compress-video() {
       "-AndroidMake<AndroidMake" \
       "-AndroidModel<AndroidModel" \
       "$output" && \
-    echo "\nCompression complete. Running VMAF verification..." && \
-    vmaf-video "$input" "$crf"
+#    echo "\nCompression complete. Running VMAF verification..." && \
+#    vmaf-video "$input" "$crf"
 }
 
 # Compress all videos in the current directory

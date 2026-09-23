@@ -12,7 +12,7 @@ Host a5
     Hostname 192.168.0.11
 
 Host g3s
-    User root
+    User joel
     Hostname 192.168.0.12
 
 Host gateway
@@ -34,3 +34,11 @@ Host ubuntu
 Host k3s
     User joel
     Hostname 192.168.0.230
+
+Host k3s-01
+    User joel
+    Hostname 192.168.0.231
+
+Host k3s-02
+    User joel
+    Hostname 192.168.0.232
