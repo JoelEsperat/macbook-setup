@@ -1,11 +1,9 @@
 Host *
-#    AddKeysToAgent yes
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_ed25519
-
-Host pi
-    User joel
-    Hostname 192.168.0.10
+    # Lab hosts are frequently rebuilt
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
 
 Host a5
     User root
