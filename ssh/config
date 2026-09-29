@@ -5,6 +5,10 @@ Host *
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
 
+Host pi
+    User root
+    Hostname 192.168.0.10
+
 Host a5
     User root
     Hostname 192.168.0.11
@@ -17,13 +21,17 @@ Host gateway
     User root
     Hostname 192.168.0.200
 
-Host nas
+Host backup
     User root
     Hostname 192.168.0.210
 
 Host apps
     User root
     Hostname 192.168.0.211
+
+Host ai
+    User root
+    Hostname 192.168.0.212
 
 Host ubuntu
     User joel
@@ -32,11 +40,3 @@ Host ubuntu
 Host k3s
     User joel
     Hostname 192.168.0.230
-
-Host k3s-01
-    User joel
-    Hostname 192.168.0.231
-
-Host k3s-02
-    User joel
-    Hostname 192.168.0.232
