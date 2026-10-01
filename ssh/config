@@ -4,6 +4,7 @@ Host *
     # Lab hosts are frequently rebuilt
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
+    LogLevel ERROR
 
 Host pi
     User root
